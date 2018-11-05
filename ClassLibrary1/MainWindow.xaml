@@ -116,6 +116,9 @@
               <TextBlock Grid.Column="1"
                          Grid.Row="5"
                          Text="{Binding DiedAt}" />
+              <Button Content="Save"
+                      Grid.Row="6"
+                      />
             </Grid>
           </Border>
         </Grid>

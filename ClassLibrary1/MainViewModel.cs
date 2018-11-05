@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Avalonia.Controls;
+using Data;
 using Interfaces;
 using System;
 using System.Collections.Generic;
@@ -39,15 +40,15 @@ namespace HW9Part2
             }
         }
 
-        private string weatherResponse;
-        public string WeatherResponse
+        private WeatherResponse weatherResponse;
+        public WeatherResponse WeatherResponse
         {
             get { return weatherResponse; }
             set { weatherResponse = value; OnPropertyChanged(nameof(WeatherResponse)); }
         }
 
-        private string lat;
-        public string Lat
+        private double lat;
+        public double Lat
         {
             get { return lat; }
             set
@@ -56,8 +57,8 @@ namespace HW9Part2
                 OnPropertyChanged(nameof(Lat));
             }
         }
-        private string lng;
-        public string Lng
+        private double lng;
+        public double Lng
         {
             get { return lng; }
             set
@@ -66,16 +67,31 @@ namespace HW9Part2
                 OnPropertyChanged(nameof(lng));
             }
         }
+
+        //private SimpleCommand saveData;
+        //public SimpleCommand SaveData => saveData ?? (saveData = new SimpleCommand(async () =>
+        //{
+        //    //try
+        //    //{
+        //    //    SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+        //    //    saveFileDialog1.Title = "Save a GED File";
+        //    //}   
+        //    //catch (Exception ex)
+        //    //{
+
+        //    //}
+        //}));
+
         private SimpleCommand getWeather;
         public SimpleCommand GetWeather => getWeather ?? (getWeather = new SimpleCommand(async () =>
         {
             try
             {
-                WeatherResponse = await data.GetConditionForLocationAsync(lat, lng);
+                WeatherResponse = await data.GetConditionsForLocationAsync(Lat, Lng);
             }
             catch (Exception ex)
             {
-                WeatherResponse = $"Whoops!  Error: {ex.Message}";
+                WeatherResponse.results.error.message = $"Whoops!  Error: {ex.Message}";
             }
         }));
 

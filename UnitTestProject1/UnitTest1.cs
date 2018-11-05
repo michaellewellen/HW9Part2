@@ -67,21 +67,22 @@ namespace Tests
         }
 
         [Test]
-        [TestCase("London", "London Weather")]
-        [TestCase(null, "Please specify a location")]
-        public void TestWeatherService(string city, string expectedWeather)
+        [TestCase(25, 25,null)]
+        [TestCase(0, 0, null )]
+        public void TestWeatherService(double testLat, double testLng, string expectedWeather)
         {
             var dataSvcMock = new Mock<IDataService>();
-            dataSvcMock.Setup(m => m.GetWeather(city)).ReturnsAsync(expectedWeather);
+            dataSvcMock.Setup(m => m.GetConditionsForLocationAsync(testLat, testLng));
 
             var trackingSvcMock = new Mock<ITrackingService>();
 
             var vm = new MainViewModel(dataSvcMock.Object, trackingSvcMock.Object);
 
-            vm.WeatherLocation = city;
+            vm.Lat = testLat;
+            vm.Lng = testLng;
             vm.GetWeather.Execute(this);
 
-            vm.Weather.Should().Be(expectedWeather);
+            vm.WeatherResponse.Should().Be(expectedWeather);
         }
     }
 }

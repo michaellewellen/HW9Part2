@@ -58,9 +58,10 @@ namespace Data
         private const string GeolookupCurrentConditionsAndForecastUri = "http://api.wunderground.com/api/{0}/geolookup/conditions/forecast/q/{1},{2}.json";
         private const string GeolookupHourlyForecastUri = "http://api.wunderground.com/api/27d9503963b27155/geolookup/hourly/q/{1},{2}.json";
 
-        public static async Task<WeatherResponse> GetConditionsForLocationAsync(double lat, double lng)
+        public  async Task<WeatherResponse> GetConditionsForLocationAsync(double lat, double lng)
         {
-            string uri = string.Format(GeolookupAndCurrentConditionsUri, Config.ApiKey, lat, lng);
+            string ApiKey = "0d6bd43d37cd4754b7342053180511";
+            string uri = string.Format(GeolookupAndCurrentConditionsUri,ApiKey, lat, lng);
 
             using (var client = new HttpClient())
             {
@@ -87,6 +88,7 @@ namespace Data
             /// The API Key for the WorldWeatherOnline API. Get yours at http://www.worldweatheronline.com
             /// </summary>
             public static string ApiKey { get; set; }
+          
         }
     }
 
