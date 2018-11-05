@@ -1,0 +1,138 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:HW9Part2;assembly=HW9Part2"
+        xmlns:interfaces="clr-namespace:Interfaces;assembly=Interfaces"
+        Width="600"
+        Height="400"
+        Title="HW9Part2">
+  <Window.DataContext>
+    <local:MainViewModel />
+  </Window.DataContext>
+  <Window.Styles>
+    <Style Selector="TextBlock.h1">
+      <Setter Property="FontSize" Value="24" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+    <Style Selector="TextBox">
+      <Setter Property="Margin" Value="5" />
+    </Style>
+    <Style Selector="TextBlock">
+      <Setter Property="Margin" Value="5" />
+    </Style>
+    <Style Selector="Button">
+      <Setter Property="Margin" Value="5" />
+    </Style>
+  </Window.Styles>
+  <DockPanel>
+    <TextBlock Text="Gedcom Viewer"
+               Classes="h1"
+               DockPanel.Dock="Top" />
+    <TabControl>
+      <TabItem Header="Master/Details">
+        <Grid RowDefinitions="Auto,Auto,*">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="120" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition MinWidth="80" />
+          </Grid.ColumnDefinitions>
+          <DockPanel Grid.ColumnSpan="3"
+                     Grid.Row="1">
+            <TextBlock Text="Path to GEDCOM file"
+                       VerticalAlignment="Center"
+                       DockPanel.Dock="Left" />
+
+
+            <Button Content="Load"
+                    DockPanel.Dock="Right"
+                    Command="{Binding LoadGedcom}" />
+            <Button Content="..."
+                    MinWidth="60"
+                    DockPanel.Dock="Right"
+                    Command="{Binding FindFile}" />
+
+            <TextBox Text="{Binding GedcomPath}"
+                     MinWidth="100"/>
+          </DockPanel>
+
+          <TextBlock Grid.Row="0"
+                     Grid.ColumnSpan="3"
+                     HorizontalAlignment="Right"
+                     Text="{Binding Output}" />
+
+          <ListBox Grid.Row="2"
+                   Items="{Binding People}"
+                   SelectedItem="{Binding SelectedPerson}"
+                   Margin="5">
+            <ListBox.DataTemplates>
+              <DataTemplate DataType="interfaces:Person">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="{Binding GivenName}" />
+                  <TextBlock Text="{Binding Surname}" />
+                </StackPanel>
+              </DataTemplate>
+            </ListBox.DataTemplates>
+          </ListBox>
+
+          <Border BorderThickness="2"
+                  BorderBrush="Black"
+                  Margin="5"
+                  CornerRadius="5"
+                  Grid.Row="2"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="2">
+            <Grid DataContext="{Binding SelectedPerson}"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
+                  ColumnDefinitions="Auto,*">
+              <TextBlock Text="Given Name" />
+              <TextBlock Grid.Column="1"
+                         Text="{Binding GivenName}" />
+
+              <TextBlock Text="Surname"
+                         Grid.Row="1"/>
+              <TextBlock Grid.Column="1"
+                         Grid.Row="1"
+                         Text="{Binding Surname}" />
+
+              <TextBlock Text="Born On"
+                         Grid.Row="2"/>
+              <TextBlock Grid.Column="1"
+                         Grid.Row="2"
+                         Text="{Binding BornOn}" />
+
+              <TextBlock Text="Born At"
+                         Grid.Row="3"/>
+              <TextBlock Grid.Column="1"
+                         Grid.Row="3"
+                         Text="{Binding BornAt}" />
+
+              <TextBlock Text="Died On"
+                         Grid.Row="4"/>
+              <TextBlock Grid.Column="1"
+                         Grid.Row="4"
+                         Text="{Binding DiedOn}" />
+
+              <TextBlock Text="Died At"
+                         Grid.Row="5"/>
+              <TextBlock Grid.Column="1"
+                         Grid.Row="5"
+                         Text="{Binding DiedAt}" />
+            </Grid>
+          </Border>
+        </Grid>
+      </TabItem>
+      <TabItem Header="Weather Web API Call" IsSelected="True">
+        <StackPanel>
+          <TextBlock Text="Enter Longitude" />
+          <TextBox Text="{Binding Lng}" />
+          <TextBlock Text="Enter Latitude" />
+          <TextBox Text="{Binding Lat}" />
+          <Button Content="Search For Weather Condition" Command="{Binding GetWeather}" />
+          <TextBlock Text="{Binding WeatherResponse}" />
+        </StackPanel>
+      </TabItem>
+      <TabItem Header="Track a Package">
+
+      </TabItem>
+    </TabControl>
+  </DockPanel>
+</Window>
